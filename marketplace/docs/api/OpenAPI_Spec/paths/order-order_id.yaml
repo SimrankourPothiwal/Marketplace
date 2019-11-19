@@ -1,0 +1,26 @@
+get:
+  tags:
+    - Order
+  summary: Find order by ID
+  operationId: getOrderById
+  parameters:
+    - name: order_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: int64
+
+  responses:
+    200:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrderResponse"
+    400:
+      description: Invalid request
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}

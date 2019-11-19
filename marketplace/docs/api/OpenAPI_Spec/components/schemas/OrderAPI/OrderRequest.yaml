@@ -1,0 +1,18 @@
+type: object
+required:
+  - action
+properties:
+  action:
+    type: string
+    description: Type of action being done. Can be verify, checkout, submit, or cancel.
+    enum:
+      - verify
+      - checkout
+      - submit
+      - cancel
+  source:
+    type: string
+    description: Source of the order
+    example: doordash
+  data:
+    $ref: "#/components/schemas/OrderDataSchema"

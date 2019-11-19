@@ -1,0 +1,27 @@
+type: object
+properties:
+  store_id:
+    type: string
+    description: Store ID
+  name:
+    type: string
+    description: Name of the store
+  active:
+    type: boolean
+    description: true if store is available, false otherwise
+  latitude:
+    type: number
+    description: The latitude of the store
+  longitude:
+    type: number
+    description: The longitude of the store
+  telephone:
+    type: string
+    description: The store telephone number
+  image:
+    type: string
+    description: The store image URL
+  address:
+    $ref: "#/components/schemas/StoreAddress"
+  opening_hours:
+    $ref: "#/components/schemas/StoreHours"

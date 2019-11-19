@@ -1,0 +1,7 @@
+type: object
+description: Message object in case of any error
+properties:
+  code:
+    type: string
+  message:
+    type: string

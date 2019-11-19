@@ -1,0 +1,58 @@
+{
+    "name": "7now-marketplace",
+    "version": "1.0.0",
+    "description": "7NOW Marketplace",
+    "main": "index.js",
+    "directories": {
+        "doc": "docs",
+        "test": "test"
+    },
+    "scripts": {
+        "build:spec": "cd docs/api/OpenAPI_Spec && sh build.sh",
+        "offline:azure": "sls offline --config serverless-azure.yml && func host start",
+        "offline:aws": "sls offline --config serverless-aws.yml --prefix location",
+        "lint:ci": "eslint src",
+        "test:mocha": "node_modules/.bin/mocha -w ./**/services/*.test.js",
+        "test:jest": "jest --coverage",
+        "integration:jest": "jest --runInBand integration -c jest.config.integration.js",
+        "deploy:azure": "sls deploy --config serverless-azure.yml",
+        "deploy:aws": "sls deploy --config serverless-aws.yml --prefix location"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://git.termn.us/service-apis/7now/marketplace.git"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@multicloud/sls-aws": "^0.1.1",
+        "@multicloud/sls-azure": "^0.1.1",
+        "@multicloud/sls-core": "^0.1.1",
+        "async": "^2.6.1",
+        "aws-sdk": "^2.411.0",
+        "bunyan": "^1.8.12",
+        "lodash": "^4.17.11",
+        "moment": "^2.23.0",
+        "moment-timezone": "^0.5.21",
+        "money-math": "^2.5.1",
+        "mongoose": "^5.7.1",
+        "nanoid": "^2.1.1",
+        "request": "^2.88.0",
+        "uuid": "^3.3.3"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "eslint": "^6.1.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-jest": "^22.17.0",
+        "jest": "^24.9.0",
+        "lint-staged": "^9.2.5",
+        "mocha": "^6.0.2",
+        "serverless-azure-functions": "^1.0.0",
+        "serverless-bundle": "^1.2.5",
+        "serverless-offline": "^5.11.0",
+        "sinon": "^7.4.2",
+        "sinon-mongoose": "^2.3.0"
+    }
+}

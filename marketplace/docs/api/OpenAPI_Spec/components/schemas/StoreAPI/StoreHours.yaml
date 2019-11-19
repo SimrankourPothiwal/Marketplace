@@ -1,0 +1,15 @@
+type: array
+items:
+  type: object
+  properties:
+    day_index:
+      type: string
+      minLength: 3
+      maxLength: 3
+      description: "Three character code for the day of the week that these hours pertain to"
+    start_time:
+      type: string
+      description: Store open time in 4 digit 24 hour format e.g. 6 am is 0600
+    end_time:
+      type: string
+      description: Store close time in 4 digit 24 hour format e.g. 5:30 pm is 1730

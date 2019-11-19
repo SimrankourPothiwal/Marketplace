@@ -1,0 +1,23 @@
+post:
+  tags:
+    - Auth
+  summary: "Generate an access token"
+  description: Receive the Access Token by providing appropriate Client ID and Secret Key.
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "#/components/schemas/AuthParam"
+
+  responses:
+    200:
+      description: The Access Token is Generated
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Auth"
+    400:
+      description: "Invalid credentials supplied"
+    404:
+      description: "User not found"
+  security: []

@@ -1,0 +1,47 @@
+put:
+  tags:
+    - Webhook
+  summary: Full webhook setup
+  description: Full webhook setup for a given source.
+
+  requestBody:
+    description: Webhooks to register
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/WebhookSchema"
+    required: true
+  responses:
+    200:
+      description: Successful operation
+      content: {}
+    400:
+      description: Invalid request
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}
+
+patch:
+  tags:
+    - Webhook
+  summary: Selective webhook update
+  description: Selectively update the specified webhooks
+
+  requestBody:
+    description: Webhooks to update
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/WebhookSchema"
+    required: true
+  responses:
+    200:
+      description: Successful operation
+      content: {}
+    400:
+      description: Invalid request
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}

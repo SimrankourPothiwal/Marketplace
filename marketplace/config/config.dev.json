@@ -1,0 +1,5 @@
+{
+    "S3_API_DEPLOYMENT_BUCKET": "7now-dev-apis-deployment-packages",
+    "LAMBDA_EXEC_ROLE": "arn:aws:iam::127566284696:role/7NOW_Lambda_Exec_Role",
+    "DLQ_SNS": "arn:aws:sns:us-west-2:127566284696:Lambda_Failure_Notification"
+}

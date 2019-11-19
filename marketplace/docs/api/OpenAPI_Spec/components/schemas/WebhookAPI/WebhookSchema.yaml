@@ -1,0 +1,36 @@
+type: object
+properties:
+  source:
+    type: string
+    description: Who is setting up the webhook
+    example: doordash
+  webhooks:
+    type: array
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of webhook being setup
+          enum:
+            - menu
+            - store
+            - order
+        event:
+          type: string
+          description: The event for which the webhook will be utilized
+          enum:
+            - menu_refresh
+            - menu_item_status
+            - store_status
+            - order_status
+            - order_item_status
+        method:
+          type: string
+          description: What type of endpoint the webhook is
+          enum:
+            - POST
+            - GET
+        url:
+          type: string
+          description: The url to invoke

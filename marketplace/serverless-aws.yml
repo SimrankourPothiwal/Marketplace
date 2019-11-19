@@ -1,0 +1,58 @@
+service: marketplace
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    apiKey: rsmgKKBFyl7r44tP5GVM75O6ZHrolrVU8bcleZT5
+
+package:
+  exclude:
+    - src/**/*.test.js
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-west-2
+  endpointType: REGIONAL
+  deploymentBucket: ${file(./config/config.${opt:stage, self:provider.stage}.json):S3_API_DEPLOYMENT_BUCKET}
+  memorySize: 1024
+  timeout: 30
+  versionFunctions: false
+  apiGateway:
+    minimumCompressionSize: 1024
+
+  environment:
+    DEPLOYMENT_STAGE: ${opt:stage, self:provider.stage}
+    POST_NEW_RELIC: common-${opt:stage, self:provider.stage}-postNewRelic
+    REGION: ${opt:region, self:provider.region}
+    LOG_LEVEL: TRACE
+    DB_SECRET_KEY: DB_Secret
+
+  role: ${file(./config/config.${opt:stage, self:provider.stage}.json):LAMBDA_EXEC_ROLE}
+
+functions:
+  orders:
+    handler:
+    onError: ${file(./config/config.${opt:stage, self:provider.stage}.json):DLQ_SNS}
+    events:
+       - http:
+           path: v1/orders/{order_id}
+           method: get
+           cors: true
+           private: true
+
+  stores:
+    handler:
+    onError: ${file(./config/config.${opt:stage, self:provider.stage}.json):DLQ_SNS}
+    events:
+      - http:
+          path: v1/stores/{store_id}
+          method:
+          cors: true
+          private: true

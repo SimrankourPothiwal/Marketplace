@@ -1,0 +1,88 @@
+openapi: 3.0.1
+info:
+  title: 7NOW Market Place APIs
+  description: "This describes how to access store items and place an order using 7NOW market place order service"
+  version: 1.0.0
+servers:
+  - url: https://api-dev.7-eleven.com/partners/now/market/v1
+  - url: https://api-test.7-eleven.com/partners/now/market/v1
+  - url: https://api-stage.7-eleven.com/partners/now/market/v1
+  - url: https://api.7-eleven.com/partners/now/market/v1
+tags:
+  - name: Auth
+    description: Authentication Service
+  - name: Order
+    description: Placing orders
+  - name: Webhook
+    description: Registering webhooks for update events
+  - name: Store
+    description: Retrieving store and menu details
+security:
+  - BearerAuth: []
+
+paths:
+  /auth:
+    servers:
+      - url: https://api-dev.7-eleven.com/partners
+      - url: https://api-test.7-eleven.com/partners
+      - url: https://api-stage.7-eleven.com/partners
+      - url: https://api.7-eleven.com/partners
+    $ref: ./paths/auth.yaml
+
+  /order:
+    $ref: ./paths/order.yaml
+
+  /order/{order_id}:
+    $ref: ./paths/order-order_id.yaml
+
+  /webhook:
+    $ref: ./paths/webhook.yaml
+
+  /store/{store_id}:
+    $ref: ./paths/store-store_id.yaml
+
+  /store/{store_id}/menu:
+    $ref: ./paths/store-store_id-menu.yaml
+
+  /store/{store_id}/item:
+    $ref: ./paths/store-store_id-item.yaml
+
+components:
+  schemas:
+    Auth:
+      $ref: ./components/schemas/AuthAPI/Auth.yaml
+    AuthParam:
+      $ref: ./components/schemas/AuthAPI/AuthParam.yaml
+    OrderDataSchema:
+      $ref: ./components/schemas/OrderAPI/OrderDataSchema.yaml
+    OrderItemSchema:
+      $ref: ./components/schemas/OrderAPI/OrderItemSchema.yaml
+    OrderList:
+      $ref: ./components/schemas/OrderAPI/OrderList.yaml
+    OrderRequest:
+      $ref: ./components/schemas/OrderAPI/OrderRequest.yaml
+    OrderResponse:
+      $ref: ./components/schemas/OrderAPI/OrderResponse.yaml
+    MessageSchema:
+      $ref: ./components/schemas/MessageSchema.yaml
+    WebhookSchema:
+      $ref: ./components/schemas/WebhookAPI/WebhookSchema.yaml
+    CategorySchema:
+      $ref: ./components/schemas/StoreAPI/CategorySchema.yaml
+    MenuItemSchema:
+      $ref: ./components/schemas/StoreAPI/MenuItemSchema.yaml
+    MenuSchema:
+      $ref: ./components/schemas/StoreAPI/MenuSchema.yaml
+    NutritionInfoItem:
+      $ref: ./components/schemas/StoreAPI/NutritionInfoItem.yaml
+    NutritionInfoSchema:
+      $ref: ./components/schemas/StoreAPI/NutritionInfoSchema.yaml
+    StoreAddress:
+      $ref: ./components/schemas/StoreAPI/StoreAddress.yaml
+    StoreHours:
+      $ref: ./components/schemas/StoreAPI/StoreHours.yaml
+    StoreSchema:
+      $ref: ./components/schemas/StoreAPI/StoreSchema.yaml
+
+  securitySchemes:
+    $ref: ./components/securitySchemes/BearerAuth.yaml

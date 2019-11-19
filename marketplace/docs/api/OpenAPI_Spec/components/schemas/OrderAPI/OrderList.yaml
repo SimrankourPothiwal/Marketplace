@@ -1,0 +1,6 @@
+type: object
+properties:
+  orders:
+    type: array
+    items:
+      $ref: "#/components/schemas/OrderResponse"

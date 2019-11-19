@@ -1,0 +1,31 @@
+type: object
+properties:
+  action:
+    type: string
+    description: Type of action being done. Can be verify, checkout, submit, or cancel.
+    enum:
+      - verify
+      - checkout
+      - submit
+      - cancel
+  status:
+    type: string
+    description: "Status of the action"
+    enum:
+      - success
+      - failed
+  source:
+    type: string
+    description: Source of the order
+    example: doordash
+  message:
+    $ref: "#/components/schemas/MessageSchema"
+  checkout_hash:
+    type: string
+    description: Hash used to simplify order processing
+  checkout_time:
+    type: string
+    format: date-time
+    description: At what date and time the order was checked out
+  data:
+    $ref: "#/components/schemas/OrderDataSchema"

@@ -1,0 +1,6 @@
+type: object
+properties:
+  categories:
+    type: array
+    items:
+      $ref: "#/components/schemas/CategorySchema"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="7NOW-Marketplace-oAuth">
+    <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+    <CreatedAt>1382626154421</CreatedAt>
+    <CreatedBy>murali.ramachari2@7-11.com</CreatedBy>
+    <Description>An API proxy that enforces OAuth 2.0 Client Credential Grant flow for 7NOW Marketplace</Description>
+    <DisplayName>7NOW-Marketplace-oAuth</DisplayName>
+    <LastModifiedAt>1568904040</LastModifiedAt>
+    <LastModifiedBy>murali.ramachari2@7-11.com</LastModifiedBy>
+    <Policies>
+        <Policy>GenerateAccessTokenClient</Policy>
+        <Policy>RefreshAccessToken</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources/>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

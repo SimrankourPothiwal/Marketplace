@@ -1,0 +1,44 @@
+type: object
+properties:
+  store_id:
+    type: string
+    description: Unique 7-Eleven store ID
+  order_id:
+    type: string
+    description: Unique order ID
+  created:
+    type: string
+    format: date-time
+    description: Date and time order was created
+  status:
+    type: string
+    description: Order status
+    enum:
+      - submitted
+      - accepted
+      - in_progress
+      - ready
+      - complete
+      - cancel
+  items:
+    type: array
+    description: List of items in order
+    items:
+      $ref: "#/components/schemas/OrderItemSchema"
+  fee_items:
+    type: array
+    description: List of any additional fee items such as basket fees, bag fees, etc.
+    items:
+      $ref: "#/components/schemas/OrderItemSchema"
+  tax:
+    type: number
+    format: int32
+    description: Tax on the order in cents
+  subtotal:
+    type: number
+    format: int32
+    description: Sum of all the items and fee items in cents
+  total:
+    type: number
+    format: int32
+    description: Total of order including tax

@@ -1,0 +1,19 @@
+type: object
+properties:
+  category_id:
+    type: string
+    description: Unique category ID
+  category_name:
+    type: string
+    description: Category name
+  popularity:
+    type: number
+    format: int32
+    description: Popularity of the category
+  image:
+    type: string
+    description: URL to category image
+  items:
+    type: array
+    items:
+      $ref: "#/components/schemas/MenuItemSchema"

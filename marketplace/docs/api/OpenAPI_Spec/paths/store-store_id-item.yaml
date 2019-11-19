@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Store
+  summary: Get item details
+  operationId: getStoreItem
+  parameters:
+    - name: store_id
+      in: path
+      description: Store ID from which to retrieve the items
+      required: true
+      schema:
+        type: string
+        format: int64
+    - name: item_id
+      in: query
+      description: Comma separated list of item_id's to retrieve
+      required: true
+      schema:
+        type: string
+        format: int64
+  responses:
+    200:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/MenuItemSchema"
+    400:
+      description: Invalid Request
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}

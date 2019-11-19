@@ -1,0 +1,65 @@
+service: marketplace
+
+plugins:
+  - serverless-bundle
+  - serverless-azure-functions
+
+provider:
+  resourceGroup: ${self:provider.prefix}-${opt:region, self:provider.region}-${opt:stage, self:provider.stage}-rg # use this name for resource group
+  prefix: ${opt:prefix, 'sevenNow'} # use this prefix to generate other resources, apim does not allow name starting with number
+  region: "westus"
+  stage: "multicloud"
+  name: azure
+  runtime: nodejs10.x
+  type: premium
+  apim:
+    apis:
+      - name: marketplace-service
+        subscriptionRequired: false
+        displayName: marketplace-service
+        description: marketplace-service APIs
+        protocols:
+          - https
+        path: marketplace
+        authorization: none
+    cors:
+      allowCredentials: false
+      allowedOrigins:
+        - "*"
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+      allowedHeaders:
+        - "*"
+      exposeHeaders:
+        - "*"
+  environment:
+    DEPLOYMENT_STAGE: ${opt:stage, self:provider.stage}
+    POST_NEW_RELIC: common-${opt:stage, self:provider.stage}-postNewRelic
+    REGION: ${opt:region, self:provider.region}
+    LOG_LEVEL: TRACE
+    DB_SECRET_KEY: DB_Secret
+
+functions:
+  orders:
+    handler:
+    events:
+      - http: true
+        x-azure-settings:
+          route: v1/orders/{order_id}
+          methods:
+            - get
+          authLevel : function
+
+  stores:
+    handler:
+    events:
+      - http: true
+        x-azure-settings:
+          route: v1/stores/{store_id}
+          methods:
+            - get
+          authLevel: function

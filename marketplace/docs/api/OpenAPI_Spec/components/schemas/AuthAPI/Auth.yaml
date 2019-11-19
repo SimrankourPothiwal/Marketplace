@@ -1,0 +1,45 @@
+type: object
+properties:
+  refresh_token_expires_in:
+    type: number
+    description: Number of seconds before refresh token expires
+  api_product_list:
+    type: string
+    description: List of API products to which you have access
+  api_product_list_json:
+    type: string
+    description: List of API products to which you have access in JSON format
+  organization_name:
+    type: string
+    description: Name of the granting organization_name
+  developer.email:
+    type: string
+    description: Developer email address
+  token_type:
+    type: string
+    description: Type of token being returned
+    example: BearerToken
+  issued_at:
+    type: number
+    description: Time at which token was issued
+  client_id:
+    type: string
+    description: Your client ID
+  access_token:
+    type: string
+    description: Your access token to be passed in authorization header
+  application_name:
+    type: string
+    description: Application name
+  scope:
+    type: string
+    description: Organization which has access to the token
+  expires_in:
+    type: number
+    description: Access token expiration in seconds
+  refresh_count:
+    type: number
+    description: How many times the access token has been refreshed
+  status:
+    type: string
+    description: Status of the request

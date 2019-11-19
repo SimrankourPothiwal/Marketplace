@@ -1,0 +1,735 @@
+openapi: 3.0.1
+info:
+  title: 7NOW Market Place APIs
+  description: >-
+    This describes how to access store items and place an order using 7NOW
+    market place order service
+  version: 1.0.0
+servers:
+  - url: 'https://api-dev.7-eleven.com/partners/now/market/v1'
+  - url: 'https://api-test.7-eleven.com/partners/now/market/v1'
+  - url: 'https://api-stage.7-eleven.com/partners/now/market/v1'
+  - url: 'https://api.7-eleven.com/partners/now/market/v1'
+tags:
+  - name: Auth
+    description: Authentication Service
+  - name: Order
+    description: Placing orders
+  - name: Webhook
+    description: Registering webhooks for update events
+  - name: Store
+    description: Retrieving store and menu details
+security:
+  - BearerAuth: []
+paths:
+  /auth:
+    servers:
+      - url: 'https://api-dev.7-eleven.com/partners'
+      - url: 'https://api-test.7-eleven.com/partners'
+      - url: 'https://api-stage.7-eleven.com/partners'
+      - url: 'https://api.7-eleven.com/partners'
+    post:
+      tags:
+        - Auth
+      summary: Generate an access token
+      description: >-
+        Receive the Access Token by providing appropriate Client ID and Secret
+        Key.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AuthParam'
+      responses:
+        '200':
+          description: The Access Token is Generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+        '400':
+          description: Invalid credentials supplied
+        '404':
+          description: User not found
+      security: []
+  /order:
+    get:
+      tags:
+        - Order
+      summary: Query for orders
+      description: >-
+        Get the order if the limit is less than x and if the order is "accepted"
+        and if the order is from "Doordash"
+      parameters:
+        - name: limit
+          in: query
+          description: The order limit is not more than 100
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: status
+          in: query
+          description: The desired order status
+          required: false
+          schema:
+            type: string
+            default: accepted
+            enum:
+              - submitted
+              - accepted
+              - in_progress
+              - ready
+              - complete
+              - cancel
+        - name: store_id
+          in: query
+          description: The desired store ID from which to retrieve orders
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderList'
+        '400':
+          description: Invalid request
+          content: {}
+        '403':
+          description: Forbidden
+          content: {}
+        '404':
+          description: Not Found
+          content: {}
+        '408':
+          description: Time out after 30 minutes
+          content: {}
+        '500':
+          description: Server Error
+          content: {}
+        '503':
+          description: Service Unavailable
+          content: {}
+    post:
+      tags:
+        - Order
+      summary: Checkout and place an order
+      operationId: checkout
+      requestBody:
+        description: Order information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful checkout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Invalid request
+          content: {}
+        '405':
+          description: Validation exception
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+  '/order/{order_id}':
+    get:
+      tags:
+        - Order
+      summary: Find order by ID
+      operationId: getOrderById
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Invalid request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+  /webhook:
+    put:
+      tags:
+        - Webhook
+      summary: Full webhook setup
+      description: Full webhook setup for a given source.
+      requestBody:
+        description: Webhooks to register
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSchema'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content: {}
+        '400':
+          description: Invalid request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+    patch:
+      tags:
+        - Webhook
+      summary: Selective webhook update
+      description: Selectively update the specified webhooks
+      requestBody:
+        description: Webhooks to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSchema'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content: {}
+        '400':
+          description: Invalid request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+  '/store/{store_id}':
+    get:
+      tags:
+        - Store
+      summary: Get store details by ID
+      operationId: getStoreById
+      parameters:
+        - name: store_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoreSchema'
+        '400':
+          description: Invalid Request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+  '/store/{store_id}/menu':
+    get:
+      tags:
+        - Store
+      summary: Get store menu
+      operationId: getStoreMenu
+      parameters:
+        - name: store_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuSchema'
+        '400':
+          description: Invalid Request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+  '/store/{store_id}/item':
+    get:
+      tags:
+        - Store
+      summary: Get item details
+      operationId: getStoreItem
+      parameters:
+        - name: store_id
+          in: path
+          description: Store ID from which to retrieve the items
+          required: true
+          schema:
+            type: string
+            format: int64
+        - name: item_id
+          in: query
+          description: Comma separated list of item_id's to retrieve
+          required: true
+          schema:
+            type: string
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItemSchema'
+        '400':
+          description: Invalid Request
+          content: {}
+        '500':
+          description: Unexpected Error
+          content: {}
+components:
+  schemas:
+    Auth:
+      type: object
+      properties:
+        refresh_token_expires_in:
+          type: number
+          description: Number of seconds before refresh token expires
+        api_product_list:
+          type: string
+          description: List of API products to which you have access
+        api_product_list_json:
+          type: string
+          description: List of API products to which you have access in JSON format
+        organization_name:
+          type: string
+          description: Name of the granting organization_name
+        developer.email:
+          type: string
+          description: Developer email address
+        token_type:
+          type: string
+          description: Type of token being returned
+          example: BearerToken
+        issued_at:
+          type: number
+          description: Time at which token was issued
+        client_id:
+          type: string
+          description: Your client ID
+        access_token:
+          type: string
+          description: Your access token to be passed in authorization header
+        application_name:
+          type: string
+          description: Application name
+        scope:
+          type: string
+          description: Organization which has access to the token
+        expires_in:
+          type: number
+          description: Access token expiration in seconds
+        refresh_count:
+          type: number
+          description: How many times the access token has been refreshed
+        status:
+          type: string
+          description: Status of the request
+    AuthParam:
+      type: object
+      required:
+        - client_id
+        - client_secret
+        - grant_type
+      properties:
+        client_id:
+          type: string
+          description: Client ID (provided by 7-Eleven)
+        client_secret:
+          type: string
+          description: Client Secret (provided by 7-Eleven)
+        grant_type:
+          type: string
+          description: Grant type for the request. Must be 'client_credentials'
+          example: client_credentials
+          enum:
+            - client_credentials
+    OrderDataSchema:
+      type: object
+      properties:
+        store_id:
+          type: string
+          description: Unique 7-Eleven store ID
+        order_id:
+          type: string
+          description: Unique order ID
+        created:
+          type: string
+          format: date-time
+          description: Date and time order was created
+        status:
+          type: string
+          description: Order status
+          enum:
+            - submitted
+            - accepted
+            - in_progress
+            - ready
+            - complete
+            - cancel
+        items:
+          type: array
+          description: List of items in order
+          items:
+            $ref: '#/components/schemas/OrderItemSchema'
+        fee_items:
+          type: array
+          description: 'List of any additional fee items such as basket fees, bag fees, etc.'
+          items:
+            $ref: '#/components/schemas/OrderItemSchema'
+        tax:
+          type: number
+          format: int32
+          description: Tax on the order in cents
+        subtotal:
+          type: number
+          format: int32
+          description: Sum of all the items and fee items in cents
+        total:
+          type: number
+          format: int32
+          description: Total of order including tax
+    OrderItemSchema:
+      type: object
+      properties:
+        item_id:
+          type: string
+          description: Unique item ID
+        name:
+          type: string
+          description: Item name
+        price:
+          type: number
+          format: int32
+          description: Item price in cents
+        quantity:
+          type: number
+          format: int32
+          description: Original quantity on the order
+        tax:
+          type: number
+    OrderList:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderResponse'
+    OrderRequest:
+      type: object
+      required:
+        - action
+      properties:
+        action:
+          type: string
+          description: >-
+            Type of action being done. Can be verify, checkout, submit, or
+            cancel.
+          enum:
+            - verify
+            - checkout
+            - submit
+            - cancel
+        source:
+          type: string
+          description: Source of the order
+          example: doordash
+        data:
+          $ref: '#/components/schemas/OrderDataSchema'
+    OrderResponse:
+      type: object
+      properties:
+        action:
+          type: string
+          description: >-
+            Type of action being done. Can be verify, checkout, submit, or
+            cancel.
+          enum:
+            - verify
+            - checkout
+            - submit
+            - cancel
+        status:
+          type: string
+          description: Status of the action
+          enum:
+            - success
+            - failed
+        source:
+          type: string
+          description: Source of the order
+          example: doordash
+        message:
+          $ref: '#/components/schemas/MessageSchema'
+        checkout_hash:
+          type: string
+          description: Hash used to simplify order processing
+        checkout_time:
+          type: string
+          format: date-time
+          description: At what date and time the order was checked out
+        data:
+          $ref: '#/components/schemas/OrderDataSchema'
+    MessageSchema:
+      type: object
+      description: Message object in case of any error
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    WebhookSchema:
+      type: object
+      properties:
+        source:
+          type: string
+          description: Who is setting up the webhook
+          example: doordash
+        webhooks:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Type of webhook being setup
+                enum:
+                  - menu
+                  - store
+                  - order
+              event:
+                type: string
+                description: The event for which the webhook will be utilized
+                enum:
+                  - menu_refresh
+                  - menu_item_status
+                  - store_status
+                  - order_status
+                  - order_item_status
+              method:
+                type: string
+                description: What type of endpoint the webhook is
+                enum:
+                  - POST
+                  - GET
+              url:
+                type: string
+                description: The url to invoke
+    CategorySchema:
+      type: object
+      properties:
+        category_id:
+          type: string
+          description: Unique category ID
+        category_name:
+          type: string
+          description: Category name
+        popularity:
+          type: number
+          format: int32
+          description: Popularity of the category
+        image:
+          type: string
+          description: URL to category image
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItemSchema'
+    MenuItemSchema:
+      type: object
+      properties:
+        product_id:
+          type: string
+          description: Unique product ID
+        store_id:
+          type: string
+          description: Store ID
+        name:
+          type: string
+          description: Name of the product
+        desc:
+          type: string
+          description: Product description
+        price:
+          type: number
+          format: int32
+          description: Product price in cents
+        image:
+          type: string
+          description: Image URL
+        popularity:
+          type: number
+          description: Ranking of the item to display
+        available:
+          type: boolean
+          description: true when available and false when unavailable
+        handling:
+          type: string
+          description: Hot or Cold
+          enum:
+            - Hot
+            - Cold
+        min_age:
+          type: number
+          format: int32
+          description: Qualifying minimum age
+        ingredients:
+          type: string
+          description: Description of the product ingredients information
+        nutrition_info:
+          $ref: '#/components/schemas/NutritionInfoSchema'
+    MenuSchema:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategorySchema'
+    NutritionInfoItem:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the information
+          example: Servings per Container
+        value:
+          type: string
+          description: The value of the information
+          example: 3.5
+    NutritionInfoSchema:
+      type: object
+      properties:
+        servingSize:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        calories:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        fat:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        cholesterol:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        sodium:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        potassium:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        carbs:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        protein:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        vitamin:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+        contains:
+          type: array
+          items:
+            $ref: '#/components/schemas/NutritionInfoItem'
+    StoreAddress:
+      type: object
+      properties:
+        street:
+          type: string
+          description: Street name
+        city:
+          type: string
+          description: City name
+        state:
+          type: string
+          description: 'State code e.g. TX, NY, etc.'
+        country:
+          type: string
+          description: 'Country code e.g. US, MX, etc.'
+        zip:
+          type: string
+          description: Zip code
+    StoreHours:
+      type: array
+      items:
+        type: object
+        properties:
+          day_index:
+            type: string
+            minLength: 3
+            maxLength: 3
+            description: >-
+              Three character code for the day of the week that these hours
+              pertain to
+          start_time:
+            type: string
+            description: Store open time in 4 digit 24 hour format e.g. 6 am is 0600
+          end_time:
+            type: string
+            description: 'Store close time in 4 digit 24 hour format e.g. 5:30 pm is 1730'
+    StoreSchema:
+      type: object
+      properties:
+        store_id:
+          type: string
+          description: Store ID
+        name:
+          type: string
+          description: Name of the store
+        active:
+          type: boolean
+          description: 'true if store is available, false otherwise'
+        latitude:
+          type: number
+          description: The latitude of the store
+        longitude:
+          type: number
+          description: The longitude of the store
+        telephone:
+          type: string
+          description: The store telephone number
+        image:
+          type: string
+          description: The store image URL
+        address:
+          $ref: '#/components/schemas/StoreAddress'
+        opening_hours:
+          $ref: '#/components/schemas/StoreHours'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

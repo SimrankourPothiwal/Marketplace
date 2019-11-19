@@ -1,0 +1,25 @@
+get:
+  tags:
+    - Store
+  summary: Get store menu
+  operationId: getStoreMenu
+  parameters:
+    - name: store_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: int64
+  responses:
+    200:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MenuSchema"
+    400:
+      description: Invalid Request
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}

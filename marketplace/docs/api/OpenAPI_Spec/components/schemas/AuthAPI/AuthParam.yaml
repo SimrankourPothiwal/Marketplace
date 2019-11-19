@@ -1,0 +1,18 @@
+type: object
+required:
+  - client_id
+  - client_secret
+  - grant_type
+properties:
+  client_id:
+    type: string
+    description: Client ID (provided by 7-Eleven)
+  client_secret:
+    type: string
+    description: Client Secret (provided by 7-Eleven)
+  grant_type:
+    type: string
+    description: Grant type for the request. Must be 'client_credentials'
+    example: client_credentials
+    enum:
+      - client_credentials

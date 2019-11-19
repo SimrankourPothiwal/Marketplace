@@ -1,0 +1,100 @@
+get:
+  tags:
+    - Order
+  summary: Query for orders
+  description: Get the order if the limit is less than x and if the order is "accepted" and if the order is from "Doordash"
+  parameters:
+    - name: limit
+      in: query
+      description: The order limit is not more than 100
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+
+    - name: status
+      in: query
+      description: The desired order status
+      required: false
+      schema:
+        type: string
+        default: accepted
+        enum:
+          - submitted
+          - accepted
+          - in_progress
+          - ready
+          - complete
+          - cancel
+
+    - name: store_id
+      in: query
+      description: The desired store ID from which to retrieve orders
+      required: false
+      schema:
+        type: string
+
+  responses:
+    200:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrderList"
+
+    400:
+      description: Invalid request
+      content: {}
+
+    404:
+      description: Not Found
+      content: {}
+
+    408:
+      description: Time out after 30 minutes
+      content: {}
+
+    403:
+      description: Forbidden
+      content: {}
+
+    500:
+      description: Server Error
+      content: {}
+
+    503:
+      description: Service Unavailable
+      content: {}
+
+post:
+  tags:
+    - Order
+  summary: Checkout and place an order
+  operationId: checkout
+
+  requestBody:
+    description: Order information
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/OrderRequest"
+    required: true
+  responses:
+    200:
+      description: Successful checkout
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OrderResponse"
+    400:
+      description: Invalid request
+      content: {}
+    405:
+      description: Validation exception
+      content: {}
+    500:
+      description: Unexpected Error
+      content: {}

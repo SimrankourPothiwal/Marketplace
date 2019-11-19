@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="default">
+    <Description></Description>
+    <FaultRules/>
+    <Flows/>
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>partners-dev.jaegar.io</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>
+<TargetEndpoint name="7NMP-DEV">
+    <Description></Description>
+    <FaultRules/>
+    <Flows/>
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>partners-dev.jaegar.io</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>
+<TargetEndpoint name="7NMP-QA">
+    <Description></Description>
+    <FaultRules/>
+    <Flows/>
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>partners-test.jaegar.io</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>
+<TargetEndpoint name="7NMP-STAGE">
+    <Description></Description>
+    <FaultRules/>
+    <Flows/>
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>partners-stage.jaegar.io</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>
+<TargetEndpoint name="7NMP-PROD">
+    <Description></Description>
+    <FaultRules/>
+    <Flows/>
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>partners.jaegar.io</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>

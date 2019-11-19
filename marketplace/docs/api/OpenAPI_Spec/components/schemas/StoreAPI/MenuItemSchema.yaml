@@ -1,0 +1,42 @@
+type: object
+properties:
+  product_id:
+    type: string
+    description: Unique product ID
+  store_id:
+    type: string
+    description: Store ID
+  name:
+    type: string
+    description: Name of the product
+  desc:
+    type: string
+    description: Product description
+  price:
+    type: number
+    format: int32
+    description: Product price in cents
+  image:
+    type: string
+    description: Image URL
+  popularity:
+    type: number
+    description: Ranking of the item to display
+  available:
+    type: boolean
+    description: true when available and false when unavailable
+  handling:
+    type: string
+    description: Hot or Cold
+    enum:
+      - Hot
+      - Cold
+  min_age:
+    type: number
+    format: int32
+    description: Qualifying minimum age
+  ingredients:
+    type: string
+    description: Description of the product ingredients information
+  nutrition_info:
+    $ref: "#/components/schemas/NutritionInfoSchema"

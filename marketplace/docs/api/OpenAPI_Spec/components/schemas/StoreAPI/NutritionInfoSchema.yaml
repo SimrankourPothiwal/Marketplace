@@ -1,0 +1,42 @@
+type: object
+properties:
+  servingSize:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  calories:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  fat:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  cholesterol:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  sodium:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  potassium:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  carbs:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  protein:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  vitamin:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"
+  contains:
+    type: array
+    items:
+      $ref: "#/components/schemas/NutritionInfoItem"

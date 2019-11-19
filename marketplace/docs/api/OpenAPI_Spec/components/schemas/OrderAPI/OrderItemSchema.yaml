@@ -1,0 +1,18 @@
+type: object
+properties:
+  item_id:
+    type: string
+    description: Unique item ID
+  name:
+    type: string
+    description: Item name
+  price:
+    type: number
+    format: int32
+    description: Item price in cents
+  quantity:
+    type: number
+    format: int32
+    description: Original quantity on the order
+  tax:
+    type: number
