@@ -35,7 +35,7 @@
         "moment": "^2.23.0",
         "moment-timezone": "^0.5.21",
         "money-math": "^2.5.1",
-        "mongoose": "^5.7.1",
+        "mongoose": "^5.7.5",
         "nanoid": "^2.1.1",
         "request": "^2.88.0",
         "uuid": "^3.3.3"
